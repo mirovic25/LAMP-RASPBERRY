@@ -1,0 +1,32 @@
+version: "3.2"
+ services:
+   php:
+     build: './php/'
+     networks:
+       - backend
+     volumes:
+       - ./html_files/:/var/www/html/
+   apache:
+     build: './apache/'
+     depends_on:
+       - php
+       - mysql
+     networks:
+       - frontend
+       - backend
+     ports:
+       - "1111:80"
+     volumes:
+       - ./html_files/:/var/www/html/
+   mysql:
+     image: yobasystems/alpine-mariadb
+     networks:
+       - backend
+     environment:
+       - MYSQL_ROOT_PASSWORD=Msagemm25
+       - MYSQL_DATABASE=prrlps
+       - MYSQL_USER=prrlps
+       - MYSQL_PASSWORD=prrlps
+networks:
+   frontend:
+   backend:
